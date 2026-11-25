@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; frame-src 'self'; base-uri 'none'; form-action 'none'">
+  <title>HKUST 图解还原 · Trajectory Lab</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap top-inner">
+      <a href="../" class="brand"><span aria-hidden="true" class="mark">↗</span> Trajectory Lab</a>
+      <div class="top-label">HKUST arXiv 数据</div>
+      <a href="../" class="back">返回实验对照</a>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="hero" aria-labelledby="headline">
+      <div class="intro">
+        <p class="eyebrow">HKUST · arXiv</p>
+        <h1 id="headline">从论文图到可编辑图解</h1>
+        <p class="lede">浏览参考图、两段式 IR／XML 模型输出，以及编译器验收结果。</p>
+      </div>
+      <div class="summary" aria-label="本批结果">
+        <div class="metrics">
+          <div><strong id="total">—</strong><span>去重原图</span></div>
+          <div><strong id="complete">—</strong><span>完整样本</span></div>
+          <div><strong id="rate">—</strong><span>完整样本率</span></div>
+        </div>
+        <progress id="completion-bar" value="0" max="100" aria-label="完整样本率"></progress>
+        <p id="snapshot" class="snapshot"></p>
+      </div>
+    </section>
+    <section class="browse" aria-labelledby="browse-title">
+      <div class="section-head">
+        <h2 id="browse-title">图与轨迹</h2>
+        <p id="result-count" role="status">正在载入索引…</p>
+      </div>
+      <div class="controls">
+        <div id="filters" class="filters" aria-label="按结果筛选"></div>
+        <div class="inputs">
+          <label class="find"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索论文标题、arXiv ID 或样本 ID" aria-label="搜索论文或样本"></label>
+          <select id="provider" aria-label="按模型筛选">
+            <option value="">全部模型</option>
+            <option value="hy">HY</option>
+            <option value="deepseek">DeepSeek</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid" id="cases"></div>
+      <div class="pagination" id="pagination" hidden>
+        <button type="button" id="previous">上一页</button>
+        <span id="page-number"></span>
+        <button type="button" id="next">下一页</button>
+      </div>
+    </section>
+  </main>
+  <dialog id="detail" aria-labelledby="case-title">
+    <div class="dialog-head">
+      <div>
+        <p id="case-meta" class="detail-meta"></p>
+        <h2 id="case-title"></h2>
+      </div>
+      <button id="close" type="button" class="icon-button" aria-label="关闭详情">×</button>
+    </div>
+    <div class="dialog-body">
+      <div class="case-layout">
+        <section class="panel" aria-labelledby="reference-title">
+          <div class="panel-title"><h3 id="reference-title">参考图</h3><a id="paper-link" target="_blank" rel="noopener" href="https://arxiv.org/">arXiv 论文</a></div>
+          <a id="image-link" class="reference" target="_blank" rel="noopener"><img id="reference" alt="论文参考图"></a>
+          <p id="image-meta" class="image-meta"></p>
+        </section>
+        <section class="panel timeline" aria-labelledby="timeline-title">
+          <div class="panel-title"><h3 id="timeline-title">两段式轨迹</h3><span id="case-status" class="status"></span></div>
+          <div id="steps" class="steps" role="status"></div>
+          <div class="case-actions">
+            <button id="render" type="button" disabled>预览 Draw.io</button>
+            <button id="download" type="button" disabled>下载可编辑文件</button>
+          </div>
+        </section>
+      </div>
+      <section id="preview" class="panel preview" hidden aria-label="Draw.io 渲染"></section>
+      <section class="panel output" aria-labelledby="output-title">
+        <div class="panel-title"><h3 id="output-title">输出内容</h3><button id="copy" type="button" disabled>复制</button></div>
+        <div id="outputs" class="filters output-tabs" aria-label="选择输出"></div>
+        <pre tabindex="0"><code id="code">正在载入轨迹…</code></pre>
+      </section>
+    </div>
+  </dialog>
+</body>
+</html>
